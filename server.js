@@ -13,6 +13,7 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         console.log("Connected to Database")
         const db = client.db("star-wars-quotes")
         const quotesCollection = db.collection("quotes")
+
         app.use(bodyParser.urlencoded({extended:true}))
 
         app.listen(3000, function () {
@@ -20,8 +21,16 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         })
 
         app.get('/', (req, res) => {
+            const cursor = db.collection('quotes')
+            .find()
+            .toArray()
+            .then(results => {
+                console.log(results)
+            })
+            .catch(error => console.error(error))
             res.sendFile(__dirname + '/index.html')
         })
+
 
         app.post('/quotes', (req, res) => {
             quotesCollection
