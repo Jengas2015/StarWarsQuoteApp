@@ -17,6 +17,11 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         app.set("view engine", "ejs")
 
         app.use(bodyParser.urlencoded({extended:true}))
+        app.use(bodyParser.json())
+
+
+
+        app.use(express.static("public"))
 
         app.listen(3000, function () {
             console.log("listening on 3000")
@@ -42,5 +47,10 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
             })
             .catch(error => console.error(error))
         })
+
+        app.put("/quotes", (req, res)=> {
+            console.log(req.body)
+        })
+        
     })
 
