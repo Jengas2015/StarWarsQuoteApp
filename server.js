@@ -49,7 +49,20 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         })
 
         app.put("/quotes", (req, res)=> {
-            console.log(req.body)
+            quotesCollection
+            .findOneAndUpdate(
+                {name: "Yoda"}, {
+                    $set: {
+                        name: req.body.name,
+                        quote: req.body.quote,
+                    },
+                }, {
+                    upsert: true,
+                })
+            .then(result=> {
+                res.json("Success")
+            })
+            .catch(error=>console.error(error))
         })
         
     })
